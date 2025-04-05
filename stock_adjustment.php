@@ -115,10 +115,7 @@ include("connect.php");
                                     <td><?php echo $row['pr_stock']; ?></td>
                                     <td><?php echo $row['new_stock']; ?></td>
                                     <td>
-                                        <a href="#" onclick="dll_row(<?php echo $row['id']; ?>)" class="btn btn-danger btn-sm" title="Click to Delete"> X</a>
-                                        <form action="stock_adjustment_dll.php" method="GET" id="dll_<?php echo $row['id']; ?>">
-                                            <input type="hidden" value="<?php echo $row['id']; ?>" name="id">
-                                        </form>
+                                        Active
                                     </td>
                                 </tr>
                             <?php } ?>
