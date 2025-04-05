@@ -43,4 +43,8 @@ $re = $db->prepare($sql);
 $re->execute(array($id, $name, $stock_id, $qty, $new_stock, $note, $date, $time, $userid, $username));
 
 
+$sql = "INSERT INTO stock_log (type,invoice_no,product_id,product_name,qty,qty_balance,date,time,user_id,source_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
+$re = $db->prepare($sql);
+$re->execute(array('stock_adjustment', $stock_id, $id, $name, $new_stock-$qty, $new_stock, $date, $time, $userid, $stock_id));
+
 header("location: stock_adjustment.php");

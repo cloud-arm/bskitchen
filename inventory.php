@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 <html>
+
 <?php
 include("head.php");
 include("connect.php");
@@ -11,6 +13,7 @@ include("connect.php");
   $r = $_SESSION['SESS_LAST_NAME'];
   $_SESSION['SESS_FORM'] = 'stock';
 
+
   if ($r == 'Cashier') {
     header("location:./../../../index.php");
   }
@@ -18,7 +21,6 @@ include("connect.php");
   if ($r == 'admin') {
     include_once("sidebar.php");
   }
-
   ?>
 
 
@@ -31,6 +33,7 @@ include("connect.php");
   <!-- Content Wrapper. Contains page content -->
 
   <div class="content-wrapper">
+
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
@@ -43,51 +46,57 @@ include("connect.php");
 
 
     <section class="content">
+
       <div class="box box-success">
         <div class="box-header">
           <h3 class="box-title">STOCK Data</h3>
         </div>
 
-        <!-- /.box-header -->
         <div class="box-body">
-          <table id="example1" class="table table-bordered table-striped">
+        <table id="example1" class="table table-bordered table-striped">
             <thead>
               <tr>
-                <th>Product_id</th>
-                <th>Code</th>
+                <th>id</th>
+                <th>Type</th>
                 <th>Name</th>
                 <th>qty</th>
-                <th>Type</th>
+                <th>Balance</th>
+                <th>Time</th>
                 <th>#</th>
               </tr>
             </thead>
             <tbody>
-
-              <?php
-              $result = $db->prepare("SELECT * FROM products   ORDER by id ASC  ");
-              $result->bindParam(':userid', $date);
-              $result->execute();
+              <?php $date=$_GET['date']; $pro_id=$_GET['pro'];
+              $result = select_query("SELECT * FROM stock_log WHERE date='$date' AND product_id='$pro_id' ORDER by id ASC  ");
               for ($i = 0; $row = $result->fetch(); $i++) {
-
               ?>
                 <tr class="record">
                   <td><?php echo $id = $row['id']; ?></td>
-                  <td></td>
+                  <td><?php echo $row['type']; ?></td>
+                  
                   <td><?php echo $row['product_name']; ?></td>
                   <td><?php echo $row['qty']; ?></td>
-                  <td><?php echo $row['type']; ?></td>
-                  <td>
-                    <a href="inventory.php?pro=<?php echo $id ?>&date=<?php echo date('Y-m-d') ?>" title="Click to view" class="btn btn-info btn-sm fa fa-eye"></a>
-                  </td>
-
+                  <td><?php echo $row['qty_balance']; ?></td>
+                  <th><?php echo $row['date'].' / '.$row['time']  ?></th>
+                  <td><?php echo $row['invoice_no']; ?></td>
+                  
+                  
                 </tr>
-              <?php }  ?>
+
+              <?php } ?>
+
             </tbody>
+            <tfoot>
+
+
+            </tfoot>
           </table>
         </div>
         <!-- /.box-body -->
       </div>
+
     </section>
+    <!-- /.content -->
   </div>
 
   <!-- /.content-wrapper -->
@@ -96,8 +105,15 @@ include("connect.php");
   include("dounbr.php");
   ?>
 
+  <!-- /.control-sidebar -->
+
+  <!-- Add the sidebar's background. This div must be placed
+
+       immediately after the control sidebar -->
+
   <div class="control-sidebar-bg"></div>
   </div>
+
 
   <?php include_once('script.php'); ?>
 
@@ -112,7 +128,6 @@ include("connect.php");
 
   <script>
     $(function() {
-
       $("#example1").DataTable();
       $('#example2').DataTable({
         "paging": true,
@@ -121,19 +136,10 @@ include("connect.php");
         "ordering": true,
         "info": true,
         "autoWidth": false
-
       });
 
     });
   </script>
-
-  <script type="text/javascript">
-    $(function() {
-
-
-    });
-  </script>
-
 </body>
 
 </html>

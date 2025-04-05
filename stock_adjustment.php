@@ -54,7 +54,7 @@ include("connect.php");
                                     <label>Product</label>
                                     <select class="form-control select2" name="id" style="width: 100%;" autofocus tabindex="1">
                                         <?php
-                                        $result = $db->prepare("SELECT * FROM products WHERE type = 'Materials' AND dll = 0 ");
+                                        $result = $db->prepare("SELECT * FROM products WHERE  dll = 0 ");
                                         $result->bindParam(':userid', $ttr);
                                         $result->execute();
                                         for ($i = 0; $row = $result->fetch(); $i++) {
