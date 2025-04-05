@@ -47,6 +47,39 @@ include("connect.php");
 
     <section class="content">
 
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <div class="box">
+          <div class="box-header with-border">
+            <h3 class="box-title">Date Selector</h3>
+          </div>
+
+          <div class="box-body">
+            <form action="" method="GET">
+              <div class="row" style="margin-bottom: 20px;display: flex;align-items: end;">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-8">
+                  <label>Date range:</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control pull-right" id="datepicker" name="date" value="<?php echo $_GET['date']; ?>">
+                  </div>
+                </div>
+
+                <div class="col-lg-2">
+                  <input type="hidden" value="<?php echo $_GET['pro']; ?>" name="pro">
+                  <input type="submit" class="btn btn-info" value="Apply">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
       <div class="box box-success">
         <div class="box-header">
           <h3 class="box-title">STOCK Data</h3>
@@ -137,6 +170,15 @@ include("connect.php");
         "info": true,
         "autoWidth": false
       });
+
+      $('#datepicker').datepicker({
+      autoclose: true,
+      datepicker: true,
+      format: 'yyyy-mm-dd '
+    });
+    $('#datepicker').datepicker({
+      autoclose: true
+    });
 
     });
   </script>
