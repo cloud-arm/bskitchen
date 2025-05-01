@@ -136,6 +136,11 @@ date_default_timezone_set("Asia/Colombo");
                           <input type="hidden" name="id" value="<?php echo $r0['transaction_id']; ?>">
                         </form>
                       <?php } ?>
+                      <a href="grn_bill.php?id=<?php echo $r0['invoice_no']; ?>">
+                    <button class="btn btn-primary btn-sm">
+                      <i class="fa fa-eye"></i>
+                    </button>
+                  </a>
                     </td>
                   </tr>
               <?php }
