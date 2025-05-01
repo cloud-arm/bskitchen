@@ -126,6 +126,11 @@ if ($invo != '') {
             $ql = $db->prepare($sql);
             $ql->execute(array($p_id, $name, $invo, 'in', $qty_blc, $qty, $date, $sell, $cost));
 
+            $sql = "INSERT INTO stock_log (type,invoice_no,product_id,product_name,qty,qty_balance,date,time,user_id,source_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
+            $re = $db->prepare($sql);
+            $re->execute(array('GRN',$invo, $p_id, $name, $qty, $qty_blc, $date, $time, $userid, $row['id']));
+
+
             $qty_blc = 0;
             $con = 0;
             $re = $db->prepare("SELECT * FROM stock ");

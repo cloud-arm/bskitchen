@@ -71,10 +71,10 @@ include("connect.php");
                                                     <label>Product</label>
                                                 </div>
 
-                                                <select class="form-control select2" name="pr" id="p_sel" onchange="pro_select()" style="width: 100%;" tabindex="1" autofocus>
+                                                <select class="form-control select2" name="pr" id="p_sel" onchange="pro_select()" style="width: 100%;"  tabindex="1" autofocus>
 
                                                     <?php
-                                                    $result = $db->prepare("SELECT * FROM products WHERE stock_action=1 AND  dll = 0 ");
+                                                    $result = $db->prepare("SELECT * FROM products WHERE dll = 0 ");
                                                     $result->bindParam(':id', $res);
                                                     $result->execute();
                                                     for ($i = 0; $row = $result->fetch(); $i++) { ?>

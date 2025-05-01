@@ -43,10 +43,6 @@ include("connect.php");
 
     </section>
 
-
-
-    <section class="content">
-
     <div class="row">
       <div class="col-md-3"></div>
       <div class="col-md-6">
@@ -65,12 +61,12 @@ include("connect.php");
                     <div class="input-group-addon">
                       <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" class="form-control pull-right" id="datepicker" name="date" value="<?php echo $_GET['date']; ?>">
+                    <input type="text" class="form-control pull-right" id="reservation" name="dates" value="<?php echo $_GET['dates']; ?>">
                   </div>
                 </div>
+                <input type="hidden" name="pro" value="<?php echo $_GET['pro'] ?>">
 
                 <div class="col-lg-2">
-                  <input type="hidden" value="<?php echo $_GET['pro']; ?>" name="pro">
                   <input type="submit" class="btn btn-info" value="Apply">
                 </div>
               </div>
@@ -80,10 +76,23 @@ include("connect.php");
       </div>
     </div>
 
-      <div class="box box-success">
+    <?php
+    include("connect.php");
+    date_default_timezone_set("Asia/Colombo");
+
+    $dates = $_GET['dates'];
+    $d1 = date_format(date_create(explode("-", $dates)[0]), "Y-m-d");
+    $d2 = date_format(date_create(explode("-", $dates)[1]), "Y-m-d");
+
+    ?>
+
+    <section class="content">
+
+      <div class="box">
         <div class="box-header">
-          <h3 class="box-title">STOCK Data</h3>
+          <h3 class="box-title">Inventory record</h3>
         </div>
+        <!-- /.box-header -->
 
         <div class="box-body">
         <table id="example1" class="table table-bordered table-striped">
@@ -99,8 +108,14 @@ include("connect.php");
               </tr>
             </thead>
             <tbody>
-              <?php $date=$_GET['date']; $pro_id=$_GET['pro'];
-              $result = select_query("SELECT * FROM stock_log WHERE date='$date' AND product_id='$pro_id' ORDER by id ASC  ");
+              <?php 
+              $dates = $_GET['dates'];
+              $d1 = date_format(date_create(explode("-", $dates)[0]), "Y-m-d");
+              $d2 = date_format(date_create(explode("-", $dates)[1]), "Y-m-d");
+          
+              echo $d1;
+              $pro_id=$_GET['pro'];
+              $result = select_query("SELECT * FROM stock_log WHERE product_id='$pro_id' AND date BETWEEN '$d1' AND '$d2'  ORDER by id ASC  ");
               for ($i = 0; $row = $result->fetch(); $i++) {
               ?>
                 <tr class="record">
@@ -127,38 +142,37 @@ include("connect.php");
         </div>
         <!-- /.box-body -->
       </div>
+      <!-- /.box -->
+      <!-- /.row -->
 
     </section>
     <!-- /.content -->
   </div>
-
   <!-- /.content-wrapper -->
-
   <?php
   include("dounbr.php");
   ?>
-
   <!-- /.control-sidebar -->
-
   <!-- Add the sidebar's background. This div must be placed
-
        immediately after the control sidebar -->
-
   <div class="control-sidebar-bg"></div>
   </div>
-
+  <!-- ./wrapper -->
 
   <?php include_once('script.php'); ?>
 
   <!-- DataTables -->
   <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
+  <!-- date-range-picker -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+  <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
   <!-- SlimScroll -->
   <script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
   <!-- FastClick -->
   <script src="../../plugins/fastclick/fastclick.js"></script>
+  <script src="../../plugins/datepicker/bootstrap-datepicker.js"></script>
   <!-- page script -->
-
   <script>
     $(function() {
       $("#example1").DataTable();
@@ -170,8 +184,31 @@ include("connect.php");
         "info": true,
         "autoWidth": false
       });
+    });
 
-      $('#datepicker').datepicker({
+    //Date range picker
+    $('#reservation').daterangepicker();
+    //Date range picker with time picker
+    //$('#datepicker').datepicker({datepicker: true,  format: 'yyyy/mm/dd '});
+    //Date range as a button
+    $('#daterange-btn').daterangepicker({
+        ranges: {
+          'Today': [moment(), moment()],
+          'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month': [moment().startOf('month'), moment().endOf('month')],
+          'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate: moment()
+      },
+      function(start, end) {
+        $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+      }
+    );
+
+    $('#datepicker').datepicker({
       autoclose: true,
       datepicker: true,
       format: 'yyyy-mm-dd '
@@ -180,6 +217,15 @@ include("connect.php");
       autoclose: true
     });
 
+
+
+    $('#datepickerd').datepicker({
+      autoclose: true,
+      datepicker: true,
+      format: 'yyyy-mm-dd '
+    });
+    $('#datepickerd').datepicker({
+      autoclose: true
     });
   </script>
 </body>
