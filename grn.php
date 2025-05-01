@@ -270,7 +270,7 @@ include("connect.php");
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label>Pay Amount</label>
-                                                <input class="form-control" type="number" name="amount" autocomplete="off" required>
+                                                <input class="form-control" type="number" name="amount" step=".01" autocomplete="off" required>
                                             </div>
                                         </div>
 
