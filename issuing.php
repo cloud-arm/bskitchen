@@ -60,16 +60,18 @@ include("connect.php");
                                                     <label>Item</label>
                                                 </div>
 
-                                                <select class="form-control select2" name="product" id="p_sel" style="width: 100%;" tabindex="1" autofocus>
+                                                <select class="form-control select2" name="product" id="p_sel"
+                                                    style="width: 100%;" tabindex="1" autofocus>
 
                                                     <?php
                                                     $result = $db->prepare("SELECT * FROM products WHERE   dll = 0 ");
                                                     $result->bindParam(':id', $res);
                                                     $result->execute();
                                                     for ($i = 0; $row = $result->fetch(); $i++) { ?>
-                                                        <option value="<?php echo $row['id']; ?>">
-                                                            <?php echo $row['product_code']; ?> -<?php echo $row['product_name']; ?>
-                                                        </option>
+                                                    <option value="<?php echo $row['id']; ?>">
+                                                        <?php echo $row['product_code']; ?>
+                                                        -<?php echo $row['product_name']; ?>
+                                                    </option>
                                                     <?php    } ?>
                                                 </select>
                                             </div>
@@ -82,7 +84,8 @@ include("connect.php");
                                                 <div class="input-group-addon">
                                                     <label>Qty</label>
                                                 </div>
-                                                <input type="number" class="form-control" value="1" step=".001" name="qty" tabindex="2">
+                                                <input type="number" class="form-control" value="1" step=".001"
+                                                    name="qty" tabindex="2">
                                             </div>
                                         </div>
                                     </div>
@@ -94,13 +97,15 @@ include("connect.php");
                                                     <label>Ration</label>
                                                 </div>
 
-                                                <select class="form-control select2" name="ration" id="ration"   tabindex="1" autofocus>
+                                                <select class="form-control select2" name="ration" id="ration"
+                                                    tabindex="1" autofocus>
                                                     <?php $result=select('ration');
                                                     for ($i = 0; $row = $result->fetch(); $i++) {
                                                      ?>
-                                                        <option value="<?php echo $row['id'] ?>"><?php echo $row['name'];  ?></option>
+                                                    <option value="<?php echo $row['id'] ?>">
+                                                        <?php echo $row['name'];  ?></option>
                                                     <?php } ?>
-                                                    
+
                                                 </select>
                                             </div>
                                         </div>
@@ -112,15 +117,17 @@ include("connect.php");
                                                 <div class="input-group-addon">
                                                     <label>Date</label>
                                                 </div>
-                                                <input type="text" class="form-control" value="<?php echo date('Y-m-d') ?>" id="datepicker"  name="date" tabindex="2">
-                                                
+                                                <input type="text" class="form-control"
+                                                    value="<?php echo date('Y-m-d') ?>" id="datepicker" name="date"
+                                                    tabindex="2">
+
                                             </div>
                                         </div>
                                     </div>
 
-                                    
 
-                                    
+
+
 
                                     <div class="col-md-1">
                                         <div class="form-group">
@@ -132,7 +139,7 @@ include("connect.php");
                             </form>
                         </div>
 
-                        
+
 
                     </div>
                 </div>
@@ -145,20 +152,20 @@ include("connect.php");
                         </div>
                         <div class="box-body d-block">
                             <table id="example1" class="table table-bordered table-striped">
-                               <thead>
-                               <tr>
-                                    <th>ID</th>
-                                    <th>Item Name</th>
-                                    <th>QTY</th>
-                                    <th>Ration</th>
-                                    <th>Date</th>
-                                </tr>
-                               </thead>
-                               <tbody>
-                               <?php 
-                                
-                                $result = query("SELECT * FROM sales_list ORDER BY id DESC LIMIT 20");
-                                
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Item Name</th>
+                                        <th>QTY</th>
+                                        <th>Ration</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php 
+
+                                $result = query("SELECT * FROM sales_list WHERE action='0' ORDER BY id DESC LIMIT 20");
+
                                 for ($i = 0; $row = $result->fetch(); $i++) {
                                     
 
@@ -169,12 +176,19 @@ include("connect.php");
                                         <td><?php echo $row['qty']; ?></td>
                                         <td><?php echo $row['ration']; ?></td>
                                         <td><?php echo $row['date']; ?></td>
+                                        <td> <?php if ($row['date'] == date("Y-m-d")) { ?>
+                                            <form method="POST" action="save/issuing_void.php">
+                                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+                                                <input class="btn btn-warning" type="submit" value="Delete">
+                                            </form>
+                                            <?php } ?>
+                                        </td>
                                     </tr>
-                                <?php
+                                    <?php
                                 }
                                 ?>
-                               </tbody>
-                                
+                                </tbody>
+
 
                             </table>
 
@@ -206,21 +220,20 @@ include("connect.php");
 
     <!-- Page script -->
     <script>
-        $(function() {
-            //Initialize Select2 Elements
-            $(".select2").select2();
-            $("#example1").DataTable();
-        });
+    $(function() {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+        $("#example1").DataTable();
+    });
 
-        $('#datepicker').datepicker({
-            autoclose: true,
-            datepicker: true,
-            format: 'yyyy-mm-dd '
-        });
-        $('#datepicker').datepicker({
-            autoclose: true
-        });
-
+    $('#datepicker').datepicker({
+        autoclose: true,
+        datepicker: true,
+        format: 'yyyy-mm-dd '
+    });
+    $('#datepicker').datepicker({
+        autoclose: true
+    });
     </script>
 
 </body>
